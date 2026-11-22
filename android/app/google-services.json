@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "703839983610",
+    "project_id": "faraz-ahmad-portfolio",
+    "storage_bucket": "faraz-ahmad-portfolio.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703839983610:android:8c18aae99f687772f13643",
+        "android_client_info": {
+          "package_name": "com.example.faraz_portfolio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjsGjlHyld-nsXEa0Xv3lRD_o-B9BvNJ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
