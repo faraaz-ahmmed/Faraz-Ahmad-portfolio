@@ -1,14 +1,27 @@
 
 import 'package:flutter/material.dart';
+
 import '../../../../core/constants/app_colors.dart';
 
 class HomeHeader extends StatelessWidget {
   final bool isMobile;
+  final ValueChanged<String> onNavigate;
 
   const HomeHeader({
     super.key,
     required this.isMobile,
+    required this.onNavigate,
   });
+
+  static const List<String> navigationItems = [
+    'Home',
+    'About',
+    'Skills',
+    'Projects',
+    'Education',
+    'Experience',
+    'Contact',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -28,22 +41,40 @@ class HomeHeader extends StatelessWidget {
               color: AppColors.cyan,
             ),
           ),
+
           if (!isMobile)
-            Wrap(
-              spacing: 24,
-              children: [
-                _navItem('Home'),
-                _navItem('About'),
-                _navItem('Skills'),
-                _navItem('Projects'),
-                _navItem('Contact'),
-              ],
+            Flexible(
+              child: Wrap(
+                alignment: WrapAlignment.end,
+                spacing: 20,
+                runSpacing: 12,
+                children: navigationItems.map((item) {
+                  return _navItem(item);
+                }).toList(),
+              ),
             )
           else
-            const Icon(
-              Icons.menu,
-              color: AppColors.textPrimary,
-              size: 30,
+            PopupMenuButton<String>(
+              icon: const Icon(
+                Icons.menu_rounded,
+                color: AppColors.textPrimary,
+                size: 30,
+              ),
+              color: AppColors.surface,
+              onSelected: onNavigate,
+              itemBuilder: (context) {
+                return navigationItems.map((item) {
+                  return PopupMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  );
+                }).toList();
+              },
             ),
         ],
       ),
@@ -51,11 +82,22 @@ class HomeHeader extends StatelessWidget {
   }
 
   Widget _navItem(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        color: AppColors.textSecondary,
-        fontSize: 14,
+    return InkWell(
+      onTap: () => onNavigate(title),
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 4,
+          vertical: 8,
+        ),
+        child: Text(
+          title,
+          style: const TextStyle(
+            color: AppColors.textSecondary,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }

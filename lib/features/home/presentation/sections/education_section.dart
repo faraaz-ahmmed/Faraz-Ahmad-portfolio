@@ -28,7 +28,7 @@ class EducationSection extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'My academic background and qualifications',
+            'My academic journey and qualifications',
             style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 15,
@@ -36,87 +36,47 @@ class EducationSection extends StatelessWidget {
           ),
           const SizedBox(height: 30),
 
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(
-                color: AppColors.border,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(
-                        Icons.school_rounded,
-                        color: AppColors.cyan,
-                        size: 30,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'University of Agriculture, Peshawar',
-                            style: TextStyle(
-                              color: AppColors.textPrimary,
-                              fontSize: isMobile ? 17 : 21,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Computer Science',
-                            style: TextStyle(
-                              color: AppColors.cyan,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            '7th Semester',
-                            style: TextStyle(
-                              color: AppColors.textSecondary,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+          _EducationCard(
+            icon: Icons.school_rounded,
+            title: 'Bachelor of Science',
+            subtitle: 'Computer Science',
+            institute: 'University of Agriculture, Peshawar',
+            duration: 'December 2023 – December 2027',
+            status: '7th Semester',
+            colors: [
+              const Color(0xFF123B70),
+              const Color(0xFF10264A),
+            ],
+          ),
 
-                const SizedBox(height: 24),
-                const Divider(color: AppColors.border),
-                const SizedBox(height: 18),
+          const SizedBox(height: 20),
 
-                _EducationDetail(
-                  icon: Icons.calendar_month_rounded,
-                  label: 'Duration',
-                  value: 'December 2023 – December 2027',
-                ),
-                const SizedBox(height: 16),
-                _EducationDetail(
-                  icon: Icons.grade_rounded,
-                  label: 'Grade',
-                  value: 'A',
-                ),
-              ],
-            ),
+          _EducationCard(
+            icon: Icons.menu_book_rounded,
+            title: 'Intermediate (FA)',
+            subtitle: 'Pre-Engineering',
+            institute: 'Oxford Group of Colleges, Kohat',
+            duration: '2021 – 2023',
+            status: 'Completed',
+            colors: [
+              const Color(0xFF174B55),
+              const Color(0xFF102F42),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+
+          _EducationCard(
+            icon: Icons.cast_for_education_rounded,
+            title: 'Matriculation',
+            subtitle: 'Secondary School Education',
+            institute: 'Government High School  Babri Banda, Kohat',
+            duration: '2019 – 2021',
+            status: 'Completed',
+            colors: [
+              const Color(0xFF44336D),
+              const Color(0xFF202044),
+            ],
           ),
         ],
       ),
@@ -124,43 +84,168 @@ class EducationSection extends StatelessWidget {
   }
 }
 
-class _EducationDetail extends StatelessWidget {
+class _EducationCard extends StatelessWidget {
   final IconData icon;
-  final String label;
-  final String value;
+  final String title;
+  final String subtitle;
+  final String institute;
+  final String duration;
+  final String status;
+  final List<Color> colors;
 
-  const _EducationDetail({
+  const _EducationCard({
     required this.icon,
-    required this.label,
-    required this.value,
+    required this.title,
+    required this.subtitle,
+    required this.institute,
+    required this.duration,
+    required this.status,
+    required this.colors,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          color: AppColors.cyan,
-          size: 20,
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: colors,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        const SizedBox(width: 12),
-        Text(
-          '$label: ',
-          style: const TextStyle(
-            color: AppColors.textPrimary,
-            fontWeight: FontWeight.w600,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: AppColors.cyan.withValues(alpha: 0.25),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: colors.first.withValues(alpha: 0.25),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
           ),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            style: const TextStyle(
-              color: AppColors.textSecondary,
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(13),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Icon(
+                  icon,
+                  color: AppColors.cyan,
+                  size: 30,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        color: AppColors.cyan,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 22),
+
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.location_on_rounded,
+                color: AppColors.cyan,
+                size: 19,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  institute,
+                  style: const TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 14,
+                    height: 1.5,
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 14),
+
+          Row(
+            children: [
+              const Icon(
+                Icons.calendar_month_rounded,
+                color: AppColors.cyan,
+                size: 19,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  duration,
+                  style: const TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 18),
+
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 8,
+              ),
+              decoration: BoxDecoration(
+                color: AppColors.cyan.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(
+                  color: AppColors.cyan.withValues(alpha: 0.35),
+                ),
+              ),
+              child: Text(
+                status,
+                style: const TextStyle(
+                  color: AppColors.cyan,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

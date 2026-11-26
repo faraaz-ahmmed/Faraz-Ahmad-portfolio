@@ -7,12 +7,67 @@ import '../sections/about_section.dart';
 import '../sections/projects_section.dart';
 import '../sections/education_section.dart';
 import '../sections/experience_section.dart';
+import '../sections/contact_section.dart';
 
 import '../widgets/home_header.dart';
 import '../widgets/hero_section.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey _homeKey = GlobalKey();
+  final GlobalKey _aboutKey = GlobalKey();
+  final GlobalKey _projectsKey = GlobalKey();
+  final GlobalKey _educationKey = GlobalKey();
+  final GlobalKey _experienceKey = GlobalKey();
+  final GlobalKey _contactKey = GlobalKey();
+
+  void _scrollToSection(String section) {
+    GlobalKey? targetKey;
+
+    switch (section) {
+      case 'Home':
+        targetKey = _homeKey;
+        break;
+
+      case 'About':
+      case 'Skills':
+        targetKey = _aboutKey;
+        break;
+
+      case 'Projects':
+        targetKey = _projectsKey;
+        break;
+
+      case 'Education':
+        targetKey = _educationKey;
+        break;
+
+      case 'Experience':
+        targetKey = _experienceKey;
+        break;
+
+      case 'Contact':
+        targetKey = _contactKey;
+        break;
+    }
+
+    final targetContext = targetKey?.currentContext;
+
+    if (targetContext != null) {
+      Scrollable.ensureVisible(
+        targetContext,
+        duration: const Duration(milliseconds: 700),
+        curve: Curves.easeInOut,
+        alignment: 0.0,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,37 +83,61 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Header Section
+                  // Header
                   HomeHeader(
                     isMobile: isMobile,
+                    onNavigate: _scrollToSection,
                   ),
 
                   const SizedBox(height: 40),
 
                   // Hero Section
-                  HeroSection(
-                    isMobile: isMobile,
+                  KeyedSubtree(
+                    key: _homeKey,
+                    child: HeroSection(
+                      isMobile: isMobile,
+                    ),
                   ),
 
                   const SizedBox(height: 60),
 
                   // About Section
-                  const AboutSection(),
+                  KeyedSubtree(
+                    key: _aboutKey,
+                    child: const AboutSection(),
+                  ),
 
                   const SizedBox(height: 60),
 
                   // Projects Section
-                  const ProjectsSection(),
+                  KeyedSubtree(
+                    key: _projectsKey,
+                    child: const ProjectsSection(),
+                  ),
 
                   const SizedBox(height: 60),
 
                   // Education Section
-                  const EducationSection(),
+                  KeyedSubtree(
+                    key: _educationKey,
+                    child: const EducationSection(),
+                  ),
 
                   const SizedBox(height: 60),
 
                   // Experience Section
-                  const ExperienceSection(),
+                  KeyedSubtree(
+                    key: _experienceKey,
+                    child: const ExperienceSection(),
+                  ),
+
+                  const SizedBox(height: 60),
+
+                  // Contact Section
+                  KeyedSubtree(
+                    key: _contactKey,
+                    child: const ContactSection(),
+                  ),
 
                   const SizedBox(height: 80),
                 ],
