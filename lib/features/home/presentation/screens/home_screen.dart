@@ -6,6 +6,7 @@ import '../../../../core/constants/app_colors.dart';
 import '../sections/about_section.dart';
 import '../sections/projects_section.dart';
 import '../sections/education_section.dart';
+import '../sections/experience_section.dart';
 
 import '../widgets/home_header.dart';
 import '../widgets/hero_section.dart';
@@ -41,7 +42,7 @@ class HomeScreen extends StatelessWidget {
 
                   const SizedBox(height: 60),
 
-                  // About Me Section
+                  // About Section
                   const AboutSection(),
 
                   const SizedBox(height: 60),
@@ -53,6 +54,11 @@ class HomeScreen extends StatelessWidget {
 
                   // Education Section
                   const EducationSection(),
+
+                  const SizedBox(height: 60),
+
+                  // Experience Section
+                  const ExperienceSection(),
 
                   const SizedBox(height: 80),
                 ],
