@@ -34,23 +34,37 @@ class _ProjectCardState extends State<ProjectCard> {
         return Opacity(
           opacity: value,
           child: Transform.translate(
-            offset: Offset(0, 35 * (1 - value)),
+            offset: Offset(0, 25 * (1 - value)),
             child: child,
           ),
         );
       },
       child: MouseRegion(
-        onEnter: (_) => setState(() => isHovered = true),
-        onExit: (_) => setState(() => isHovered = false),
+        onEnter: (_) {
+          setState(() => isHovered = true);
+        },
+        onExit: (_) {
+          setState(() => isHovered = false);
+        },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
           transform: Matrix4.identity()
-            ..translate(0.0, isHovered ? -8.0 : 0.0)
-            ..scale(isHovered ? 1.02 : 1.0),
+            ..translateByDouble(
+              0.0,
+              isHovered ? -6.0 : 0.0,
+              0.0,
+              1.0,
+            )
+            ..scaleByDouble(
+              isHovered ? 1.02 : 1.0,
+              isHovered ? 1.02 : 1.0,
+              1.0,
+              1.0,
+            ),
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(18),
             border: Border.all(
               color: isHovered
                   ? AppColors.cyan
@@ -61,97 +75,112 @@ class _ProjectCardState extends State<ProjectCard> {
                 color: Colors.black.withValues(
                   alpha: isHovered ? 0.25 : 0.12,
                 ),
-                blurRadius: isHovered ? 25 : 12,
-                offset: Offset(0, isHovered ? 12 : 6),
+                blurRadius: isHovered ? 20 : 10,
+                offset: Offset(
+                  0,
+                  isHovered ? 10 : 5,
+                ),
               ),
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AspectRatio(
-                  aspectRatio: 16 / 10,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      AnimatedScale(
-                        scale: isHovered ? 1.08 : 1.0,
-                        duration: const Duration(milliseconds: 400),
-                        child: Image.asset(
-                          widget.image,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) {
-                            return Container(
-                              color: AppColors.background,
-                              child: const Icon(
-                                Icons.image_not_supported_outlined,
-                                size: 50,
-                                color: AppColors.cyan,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      if (isHovered)
-                        Container(
-                          color: Colors.black.withValues(alpha: 0.08),
-                        ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.title,
-                        style: const TextStyle(
-                          fontSize: 21,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        widget.description,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          height: 1.6,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: widget.technologies.map((tech) {
+                // Project Image
+                Expanded(
+                  flex: 5,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: AnimatedScale(
+                      scale: isHovered ? 1.06 : 1.0,
+                      duration:
+                          const Duration(milliseconds: 350),
+                      child: Image.asset(
+                        widget.image,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) {
                           return Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.primary.withValues(
-                                alpha: 0.15,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              tech,
-                              style: const TextStyle(
-                                fontSize: 12,
+                            color: AppColors.background,
+                            child: const Center(
+                              child: Icon(
+                                Icons.image_not_supported_outlined,
+                                size: 40,
                                 color: AppColors.cyan,
                               ),
                             ),
                           );
-                        }).toList(),
+                        },
                       ),
-                    ],
+                    ),
+                  ),
+                ),
+
+                // Project Details
+                Expanded(
+                  flex: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(14),
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Expanded(
+                          child: Text(
+                            widget.description,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              height: 1.5,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+
+                        // Technology Tags
+                        Wrap(
+                          spacing: 5,
+                          runSpacing: 5,
+                          children: widget.technologies.map((tech) {
+                            return Container(
+                              padding:
+                                  const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 5,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withValues(
+                                  alpha: 0.15,
+                                ),
+                                borderRadius:
+                                    BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                tech,
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  color: AppColors.cyan,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

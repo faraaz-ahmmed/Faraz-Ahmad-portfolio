@@ -11,23 +11,30 @@ class ProjectsSection extends StatelessWidget {
     {
       'title': 'PSMS Management App',
       'description':
-          'A student and school management application with attendance, courses and student records.',
-      'image': 'assets/images/projects/psms.png',
+          'A student management system with attendance, courses, student records and administration.',
+      'image': 'assets/images/projects/psms_icon.png',
       'technologies': ['Flutter', 'Firebase', 'Dart'],
     },
     {
-      'title': 'Notes 3D App',
+      'title': 'AgeCraft 3D',
       'description':
-          'A modern notes application with a clean interface for saving and managing personal notes.',
-      'image': 'assets/images/projects/notes_3d.png',
+          'An age calculator application that calculates age in years, months and days.',
+      'image': 'assets/images/projects/age_craft.png',
       'technologies': ['Flutter', 'Dart', 'UI/UX'],
     },
     {
       'title': 'BMI 3D App',
       'description':
-          'A BMI calculator application with an interactive interface and animated components.',
+          'A BMI calculator application featuring an interactive 3D-inspired user interface.',
       'image': 'assets/images/projects/bmi_3d.png',
       'technologies': ['Flutter', 'Dart', 'Animation'],
+    },
+    {
+      'title': 'Notes 3D App',
+      'description':
+          'A personal notebook application to create, view, edit and delete notes using Firebase.',
+      'image': 'assets/images/projects/notes_3d.png',
+      'technologies': ['Flutter', 'Firebase', 'Dart'],
     },
   ];
 
@@ -37,11 +44,10 @@ class ProjectsSection extends StatelessWidget {
       width: double.infinity,
       color: AppColors.background,
       padding: const EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 80,
+        horizontal: 16,
+        vertical: 70,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
             'My Projects',
@@ -51,7 +57,9 @@ class ProjectsSection extends StatelessWidget {
               color: AppColors.textPrimary,
             ),
           ),
+
           const SizedBox(height: 12),
+
           const Text(
             'Some of my recent Flutter development work.',
             textAlign: TextAlign.center,
@@ -60,16 +68,25 @@ class ProjectsSection extends StatelessWidget {
               color: AppColors.textSecondary,
             ),
           ),
-          const SizedBox(height: 45),
+
+          const SizedBox(height: 40),
+
           LayoutBuilder(
             builder: (context, constraints) {
-              final width = constraints.maxWidth;
+              // Desktop: 4 columns
+              // Tablet: 2 columns
+              // Mobile: 1 column
+              final screenWidth = MediaQuery.sizeOf(context).width;
 
-              final int columns = width >= 1000
-                  ? 3
-                  : width >= 650
-                      ? 2
-                      : 1;
+              final int columns;
+
+              if (screenWidth >= 1000) {
+                columns = 4;
+              } else if (screenWidth >= 600) {
+                columns = 2;
+              } else {
+                columns = 1;
+              }
 
               return GridView.builder(
                 shrinkWrap: true,
@@ -78,19 +95,20 @@ class ProjectsSection extends StatelessWidget {
                 gridDelegate:
                     SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: columns,
-                  crossAxisSpacing: 25,
-                  mainAxisSpacing: 25,
-                  mainAxisExtent: 430,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 20,
+                  mainAxisExtent: 400,
                 ),
                 itemBuilder: (context, index) {
                   final project = projects[index];
 
                   return ProjectCard(
-                    title: project['title'],
-                    description: project['description'],
-                    image: project['image'],
-                    technologies:
-                        List<String>.from(project['technologies']),
+                    title: project['title'] as String,
+                    description: project['description'] as String,
+                    image: project['image'] as String,
+                    technologies: List<String>.from(
+                      project['technologies'] as List,
+                    ),
                   );
                 },
               );

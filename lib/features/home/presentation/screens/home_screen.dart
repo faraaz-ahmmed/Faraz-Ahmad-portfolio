@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+
 import '../../../../core/constants/app_colors.dart';
+import '../sections/projects_section.dart';
 import '../widgets/home_header.dart';
 import '../widgets/hero_section.dart';
 
@@ -19,9 +21,18 @@ class HomeScreen extends StatelessWidget {
             return SingleChildScrollView(
               child: Column(
                 children: [
+                  // Home Navigation Header
                   HomeHeader(isMobile: isMobile),
+
                   const SizedBox(height: 40),
+
+                  // Hero Section
                   HeroSection(isMobile: isMobile),
+
+                  const SizedBox(height: 60),
+
+                  // Projects Section
+                  const ProjectsSection(),
                 ],
               ),
             );
