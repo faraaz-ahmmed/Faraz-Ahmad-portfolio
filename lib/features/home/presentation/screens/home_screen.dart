@@ -1,14 +1,12 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/app_colors.dart';
-
 import '../sections/about_section.dart';
 import '../sections/projects_section.dart';
 import '../sections/education_section.dart';
 import '../sections/experience_section.dart';
 import '../sections/contact_section.dart';
-
+import '../sections/footer_section.dart';
 
 import '../widgets/home_header.dart';
 import '../widgets/hero_section.dart';
@@ -28,52 +26,33 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey _experienceKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
 
-  void _scrollToSection(String section) {
-    GlobalKey? targetKey;
+  Future<void> _scrollToSection(String section) async {
+    final Map<String, GlobalKey> sectionKeys = {
+      'Home': _homeKey,
+      'About': _aboutKey,
+      'Skills': _aboutKey,
+      'Projects': _projectsKey,
+      'Education': _educationKey,
+      'Experience': _experienceKey,
+      'Contact': _contactKey,
+    };
 
-    switch (section) {
-      case 'Home':
-        targetKey = _homeKey;
-        break;
+    final key = sectionKeys[section];
+    final targetContext = key?.currentContext;
 
-      case 'About':
-      case 'Skills':
-        targetKey = _aboutKey;
-        break;
+    if (targetContext == null) return;
 
-      case 'Projects':
-        targetKey = _projectsKey;
-        break;
-
-      case 'Education':
-        targetKey = _educationKey;
-        break;
-
-      case 'Experience':
-        targetKey = _experienceKey;
-        break;
-
-      case 'Contact':
-        targetKey = _contactKey;
-        break;
-    }
-
-    final targetContext = targetKey?.currentContext;
-
-    if (targetContext != null) {
-      Scrollable.ensureVisible(
-        targetContext,
-        duration: const Duration(milliseconds: 700),
-        curve: Curves.easeInOut,
-        alignment: 0.0,
-      );
-    }
+    await Scrollable.ensureVisible(
+      targetContext,
+      duration: const Duration(milliseconds: 700),
+      curve: Curves.easeInOut,
+      alignment: 0,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -93,54 +72,60 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 40),
 
                   // Hero Section
-                  KeyedSubtree(
+                  HeroSection(
                     key: _homeKey,
-                    child: HeroSection(
-                      isMobile: isMobile,
-                    ),
+                    isMobile: isMobile,
+                    onViewProjects: () {
+                      _scrollToSection('Projects');
+                    },
+                    onContactMe: () {
+                      _scrollToSection('Contact');
+                    },
                   ),
 
                   const SizedBox(height: 60),
 
                   // About Section
-                  KeyedSubtree(
+                  AboutSection(
                     key: _aboutKey,
-                    child: const AboutSection(),
                   ),
 
                   const SizedBox(height: 60),
 
                   // Projects Section
-                  KeyedSubtree(
+                  ProjectsSection(
                     key: _projectsKey,
-                    child: const ProjectsSection(),
                   ),
 
                   const SizedBox(height: 60),
 
                   // Education Section
-                  KeyedSubtree(
+                  EducationSection(
                     key: _educationKey,
-                    child: const EducationSection(),
                   ),
 
                   const SizedBox(height: 60),
 
                   // Experience Section
-                  KeyedSubtree(
+                  ExperienceSection(
                     key: _experienceKey,
-                    child: const ExperienceSection(),
                   ),
 
                   const SizedBox(height: 60),
 
                   // Contact Section
-                  KeyedSubtree(
+                  ContactSection(
                     key: _contactKey,
-                    child: const ContactSection(),
                   ),
 
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 40),
+
+                  // Footer Section
+                  FooterSection(
+                    onBackToTop: () {
+                      _scrollToSection('Home');
+                    },
+                  ),
                 ],
               ),
             );

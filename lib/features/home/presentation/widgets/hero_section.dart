@@ -1,13 +1,18 @@
 
 import 'package:flutter/material.dart';
+
 import '../../../../core/constants/app_colors.dart';
 
 class HeroSection extends StatelessWidget {
   final bool isMobile;
+  final VoidCallback onViewProjects;
+  final VoidCallback onContactMe;
 
   const HeroSection({
     super.key,
     required this.isMobile,
+    required this.onViewProjects,
+    required this.onContactMe,
   });
 
   @override
@@ -21,7 +26,7 @@ class HeroSection extends StatelessWidget {
         direction: isMobile ? Axis.vertical : Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
+          Flexible(
             flex: isMobile ? 0 : 3,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,20 +75,20 @@ class HeroSection extends StatelessWidget {
                   runSpacing: 12,
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: onViewProjects,
                       child: const Text('View Projects'),
                     ),
                     OutlinedButton(
-                      onPressed: () {},
-                      child: const Text('Download CV'),
+                      onPressed: onContactMe,
+                      child: const Text('Contact Me'),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          if (!isMobile)
-            const SizedBox(width: 50),
+          if (!isMobile) const SizedBox(width: 50),
+          if (isMobile) const SizedBox(height: 35),
           SizedBox(
             width: isMobile ? 240 : 320,
             height: isMobile ? 280 : 360,
